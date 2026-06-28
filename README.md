@@ -1,20 +1,32 @@
 # TS CRUD APIs
 
-A RESTful CRUD API built with **Node.js**, **Express**, **TypeScript**, and **MongoDB (Mongoose)**.
-This project demonstrates clean API structure, data modeling, validation, and best practices for scalable backend development.
+A RESTful API built with **Node.js**, **Express**, **TypeScript**, and **MongoDB (Mongoose)**.
+
+This project demonstrates a complete restaurant management backend with CRUD operations, database relationships, validation, pagination, and centralized error handling.
 
 ---
 
 ## Features
 
-* CRUD operations for users
-* RESTful routing and controllers
+* CRUD operations for:
+* Customers
+* Employees
+* Categories
+* Menu Items
+* Reservations
+* Orders
+---
 * MongoDB integration using Mongoose
 * TypeScript with strict typing
+* Data modeling with Mongoose schemas
+* Collection relationships using ObjectId references
+* Request validation using Zod
+* Pagination support
+* Automatic order total calculation
 * Environment variable management with dotenv
-* Centralized error handling
----
+* Centralized error handling middleware
 
+  
 ## Tech Stack
 
 * **Node.js**
@@ -25,28 +37,51 @@ This project demonstrates clean API structure, data modeling, validation, and be
 
 ---
 
-## Project Structure
 
-```
+---
+
+## Project Structure
+Express Project/
 ts-crud-apis/
 ├── src/
-│   ├── config/          # Database connection
-│   │   └── db.ts
-│   ├── controllers/     # Business logic
-│   │   └── user.controller.ts
-│   ├── models/          # Mongoose schemas
-│   │   └── user.model.ts
-│   ├── routes/          # API routes
-│   │   └── user.routes.ts
-│   ├── middlewares/     # Custom middlewares
-│   │   ├── error.middleware.ts
-│   ├── app.ts           # Express app setup
-│   └── server.ts        # Server bootstrap
-├── .env                 # Environment variables
+│ ├── config/ # Database connection
+│ │ └── db.ts
+│ │
+│ ├── controllers/ # Business logic
+│ │ ├── customer.controller.ts
+│ │ ├── employee.controller.ts
+│ │ ├── category.controller.ts
+│ │ ├── menuItem.controller.ts
+│ │ ├── reservation.controller.ts
+│ │ └── order.controller.ts
+│ │
+│ ├── models/ # Mongoose schemas
+│ │ ├── customer.model.ts
+│ │ ├── employee.model.ts
+│ │ ├── category.model.ts
+│ │ ├── menuItem.model.ts
+│ │ ├── reservation.model.ts
+│ │ └── order.model.ts
+│ │
+│ ├── routes/ # API routes
+│ │
+│ ├── middlewares/
+│ │ └── error.middleware.ts
+│ │
+│ ├── utils/
+│ │ └── AppError.ts
+│ │
+│ ├── validators/ # Zod validation schemas
+│ │
+│ ├── app.ts
+│ └── server.ts
+│
+├── .env
+├── .env.example
 ├── tsconfig.json
 ├── package.json
 └── README.md
-```
+
 
 ---
 
@@ -70,7 +105,7 @@ npm install
 Create a `.env` file in the root directory:
 
 ```env
-PORT=3000
+PORT=5000
 MONGO_URI=YOUR_MONGO_URI
 ```
 
@@ -94,15 +129,71 @@ MONGO_URI=YOUR_MONGO_URI
 
 ## API Endpoints
 
-Base URL: `http://localhost:3000/api/users`
+Base URL: `http://localhost:5000/api`
 
-| Method | Endpoint | Description    |
-| -----: | -------- | -------------- |
-|   POST | `/`      | Create a user  |
-|    GET | `/`      | Get all users  |
-|    GET | `/:id`   | Get user by ID |
-|    PUT | `/:id`   | Update user    |
-| DELETE | `/:id`   | Delete user    |
+##Customers
+
+| Method | Endpoint       | Description        |
+| ------ | -------------- | ------------------ |
+| POST   | /customers     | Create customer    |
+| GET    | /customers     | Get all customers  |
+| GET    | /customers/:id | Get customer by ID |
+| PUT    | /customers/:id | Update customer    |
+| DELETE | /customers/:id | Delete customer    |
+
+##Employees
+
+| Method | Endpoint       | Description        |
+| ------ | -------------- | ------------------ |
+| POST   | /employees     | Create employee    |
+| GET    | /employees     | Get all employees  |
+| GET    | /employees/:id | Get employee by ID |
+| PUT    | /employees/:id | Update employee    |
+| DELETE | /employees/:id | Delete employee    |
+
+
+##Categories
+
+| Method | Endpoint        | Description     |
+| ------ | --------------- | --------------- |
+| POST   | /categories     | Create category |
+| GET    | /categories     | Get categories  |
+| GET    | /categories/:id | Get category    |
+| PUT    | /categories/:id | Update category |
+| DELETE | /categories/:id | Delete category |
+
+
+##Menu Items
+
+| Method | Endpoint        | Description      |
+| ------ | --------------- | ---------------- |
+| POST   | /menu-items     | Create menu item |
+| GET    | /menu-items     | Get menu items   |
+| GET    | /menu-items/:id | Get menu item    |
+| PUT    | /menu-items/:id | Update menu item |
+| DELETE | /menu-items/:id | Delete menu item |
+
+
+##Reservations
+
+| Method | Endpoint          | Description        |
+| ------ | ----------------- | ------------------ |
+| POST   | /reservations     | Create reservation |
+| GET    | /reservations     | Get reservations   |
+| GET    | /reservations/:id | Get reservation    |
+| PUT    | /reservations/:id | Update reservation |
+| DELETE | /reservations/:id | Delete reservation |
+
+
+##Orders
+
+| Method | Endpoint    | Description  |
+| ------ | ----------- | ------------ |
+| POST   | /orders     | Create order |
+| GET    | /orders     | Get orders   |
+| GET    | /orders/:id | Get order    |
+| PUT    | /orders/:id | Update order |
+| DELETE | /orders/:id | Delete order |
 
 ---
 
@@ -111,9 +202,10 @@ Base URL: `http://localhost:3000/api/users`
 All errors are handled by a global error middleware:
 
 * Centralized error responses
+* Custom application errors
+* Validation error handling
+* Invalid ObjectId handling
 * Prevents application crashes
-* Returns consistent JSON error format
-
 ---
 
 ## License
