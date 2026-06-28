@@ -1,4 +1,6 @@
 import { Request, Response, NextFunction } from "express";
+import AppError from "../utils/AppError";
+
 
 const errorHandler = (
     err: Error,
@@ -6,9 +8,29 @@ const errorHandler = (
     res: Response,
     next: NextFunction
 ) => {
-    console.log("GLOBAL ERROR MIDDLEWARE");
+
     console.error(err);
-    res.status(500).json({ message: err.message });
+
+    console.log("ERROR TYPE:", err.constructor.name);
+    console.log("IS APP ERROR:", err instanceof AppError);
+
+
+    if (err instanceof AppError) {
+
+        res.status(err.statusCode).json({
+            message: err.message
+        });
+
+        return;
+
+    }
+
+
+    res.status(500).json({
+        message: "Internal Server Error"
+    });
+
 };
+
 
 export default errorHandler;
