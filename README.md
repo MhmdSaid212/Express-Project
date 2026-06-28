@@ -55,7 +55,7 @@ ts-crud-apis/
 ### 1. Clone the repository
 
 ```bash
-git clone git@github.com:RimDH/ts-crud-apis.git
+git clone git@github.com:MhmdSaid212/Express-Project.git
 cd ts-crud-apis
 ```
 
